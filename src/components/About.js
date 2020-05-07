@@ -2,6 +2,9 @@ import React from "react";
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import { grey} from "@material-ui/core/colors";
+import Grid from '@material-ui/core/Grid';
+import alex from '../images/alex.jpg';
+import brian from '../images/brian.jpg';
 
 const useStyles = theme => ({
     root: {
@@ -27,18 +30,22 @@ class About extends React.Component {
         const {classes} = this.props
         return (
             <div className={classes.root}>
-              <Paper className={classes.header} elevation={0}>
-                <h1 className={classes.statement}>
-                    Hello, we're <span className={classes.highlight}>Swelo!</span> We
-                    are committed to <span className={classes.highlight}>reshaping the landscape</span> of professional swimming by
-                    introducting <span className={classes.highlight}>betting</span> to the sport. We hope to shift the motivation
-                    behind swimming to be rooted in <span className={classes.highlight}>extrinsic competition</span> rather than time standards.
-                </h1>
-              </Paper>
-              <Paper className={classes.body} elevation={0}>
-                <p>
-                    About Information
-                </p>
+              < Paper className={classes.header} elevation={0}>
+                    <h1>We Are <span className={classes.highlight}>Swelo</span> </h1>
+                    <h2>Here is some information about us...</h2>
+                </Paper>
+                <Paper className={classes.body} elevation={0}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <img src={alex}></img>
+                            <h3><strong>About Alex</strong></h3>
+
+                        </Grid>
+                        <Grid item xs={6}>
+                            <img src={brian}></img>
+                            <h3><strong>About Brian</strong></h3>
+                        </Grid>
+                    </Grid>
               </Paper>
             </div>
         );

@@ -2,12 +2,19 @@ import React from "react";
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import { grey} from "@material-ui/core/colors";
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = theme => ({
     root: {
         width: "100%",
         backgroundColor: grey,
+    },
+    grid: {
+        flexGrow: 1,
     },
     highlight: {
         color: "blue",
@@ -19,13 +26,27 @@ const useStyles = theme => ({
     statement: {
         textAlign: "left",
         fontSize: "3em",
+    },
+    body: {
+        marginTop: "10%",
+        marginLeft: "5%",
+        marginRight: "5%",
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+    card: {
+        height: "100%",
     }
 });
 
 class Home extends React.Component {
 
     render () {
-        const {classes} = this.props
+        const {classes} = this.props;
         return (
             <div className={classes.root}>
               <Paper className={classes.header} elevation={0}>
@@ -37,9 +58,44 @@ class Home extends React.Component {
                 </h1>
               </Paper>
               <Paper className={classes.body} elevation={0}>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
+                <Grid container className={classes.grid} spacing={8} justify="center">
+                    <Grid item xs={4}>
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <Typography variant="h3" component="h2">
+                                    Research
+                                </Typography>
+                                <Typography variant="body" component="h2" align="left" color="textSecondary">
+                                    Use our proprietary elo rating system to check out how your favorite swimmers match up to others in the competitive field.
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <Typography variant="h3" component="h2">
+                                    Bet
+                                </Typography>
+                                <Typography variant="body" component="h2" align="left" color="textSecondary">
+                                    Wager money on your favorite events for the chance to win!
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <Typography variant="h3" component="h2">
+                                    Win
+                                </Typography>
+                                <Typography variant="body" component="h2" align="left" color="textSecondary">
+                                    Win prizes and money for correctly predicting outcomes in your favorite ISL races!
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
               </Paper>
             </div>
         );
