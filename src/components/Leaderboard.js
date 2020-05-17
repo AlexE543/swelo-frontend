@@ -60,14 +60,14 @@ class Leaderboard extends React.Component {
     };
 
     componentDidMount() {
-        axios.get("http://api.swelo.com/leaderboard/M").then((res) => {
+        axios.get("https://api.swelo.com/leaderboard/M").then((res) => {
             try {
                 this.setState({males: res.data});
             } catch (err) {
                 console.error(err);
             }
         });
-        axios.get("http://api.swelo.com/leaderboard/F").then((result) => {
+        axios.get("https://api.swelo.com/leaderboard/F").then((result) => {
             try {
                 this.setState({females: result.data});
             } catch (err) {

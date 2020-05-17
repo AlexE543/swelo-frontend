@@ -57,10 +57,10 @@ export default function SignUp() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post("http://api.swelo.com/signup", { "firstName": firstName, "lastName": lastName, "email": email, "password": password }).then((res) => {
+    axios.post("https://api.swelo.com/signup", { "firstName": firstName, "lastName": lastName, "email": email, "password": password }).then((res) => {
       console.log("Token: ", res.data.token);
       console.log("UserId: ", res.data.userId);
-      axios.post("http://api.swelo.com/login", { "email": email, "password": password }).then((res) => {
+      axios.post("https://api.swelo.com/login", { "email": email, "password": password }).then((res) => {
         console.log("Token: ", res.data.token.token);
         console.log("User: ", res.data.user);
         localStorage.setItem('token', res.data.token.token);
