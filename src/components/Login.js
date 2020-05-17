@@ -57,7 +57,7 @@ export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Email: ", email, " Password: ", password, " Remember: ", remember);
-    axios.post("https://api.swelo.com/login", { "email": email, "password": password }).then((res) => {
+    axios.post("https://api.swimelo.com/login", { "email": email, "password": password }).then((res) => {
       console.log("Token: ", res.data.token.token);
       console.log("User: ", res.data.user);
       localStorage.setItem('token', res.data.token.token);
