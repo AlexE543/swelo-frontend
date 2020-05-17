@@ -11,10 +11,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
+import NavigationBar from './NavigationBar';
 
 const useStyles = theme => ({
     root: {
         width: '100%',
+        backgroundColor: "#014664",
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -48,6 +50,7 @@ class About extends React.Component {
         const {classes} = this.props
         return (
             <div className={classes.root}>
+                <NavigationBar></NavigationBar>
                 <div className={classes.head}>
                     <h1>Example Betting Market</h1>
                 </div>

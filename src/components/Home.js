@@ -1,45 +1,60 @@
 import React from "react";
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import { grey} from "@material-ui/core/colors";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import NavigationBar from "./NavigationBar";
+import Background from "../images/background.jpg"
 
 
 const useStyles = theme => ({
     root: {
         width: "100%",
-        backgroundColor: grey,
+        backgroundImage: `url(${Background})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
     },
     grid: {
         flexGrow: 1,
     },
     highlight: {
-        color: "blue",
+        color: "gold",
     },
     header: {
         marginLeft: "5%",
         marginRight: "5%",
+        backgroundColor: "transparent",
     },
     statement: {
         textAlign: "left",
-        fontSize: "3em",
+        fontSize: "3vw",
+        color: "white",
     },
     body: {
-        marginTop: "10%",
+        marginTop: "15%",
         marginLeft: "5%",
         marginRight: "5%",
+        backgroundColor: "transparent",
     },
     title: {
-        fontSize: 14,
+        color: "gold",
+        fontSize: "2vw",
     },
-    pos: {
-        marginBottom: 12,
+    info: {
+        color: "gray",
+        fontSize: "1.5vw",
     },
     card: {
         height: "100%",
+        backgroundColor: "transparent",
+        borderStyle: "solid",
+        borderColor: "gold",
+    },
+    blur: {
+        backdropFilter: "blur(5px) brightness(60%)",
     }
 });
 
@@ -49,6 +64,8 @@ class Home extends React.Component {
         const {classes} = this.props;
         return (
             <div className={classes.root}>
+                <div className={classes.blur}>
+                <NavigationBar></NavigationBar>
               <Paper className={classes.header} elevation={0}>
                 <h1 className={classes.statement}>
                     Hello, we're <span className={classes.highlight}>Swelo!</span> We
@@ -62,10 +79,10 @@ class Home extends React.Component {
                     <Grid item xs={4}>
                         <Card className={classes.card}>
                             <CardContent>
-                                <Typography variant="h3" component="h2">
+                                <Typography variant="h3" component="h2" className={classes.title}>
                                     Research
                                 </Typography>
-                                <Typography variant="body" component="h2" align="left" color="textSecondary">
+                                <Typography variant="h6" component="h6" align="left" className={classes.info}>
                                     Use our proprietary elo rating system to check out how your favorite swimmers match up to others in the competitive field.
                                 </Typography>
                             </CardContent>
@@ -74,10 +91,10 @@ class Home extends React.Component {
                     <Grid item xs={4}>
                         <Card className={classes.card}>
                             <CardContent>
-                                <Typography variant="h3" component="h2">
+                                <Typography variant="h3" component="h2" className={classes.title}>
                                     Bet
                                 </Typography>
-                                <Typography variant="body" component="h2" align="left" color="textSecondary">
+                                <Typography variant="h6" component="h6" align="left" className={classes.info}>
                                     Wager money on your favorite events for the chance to win!
                                 </Typography>
                             </CardContent>
@@ -86,10 +103,10 @@ class Home extends React.Component {
                     <Grid item xs={4}>
                         <Card className={classes.card}>
                             <CardContent>
-                                <Typography variant="h3" component="h2">
+                                <Typography variant="h3" component="h2" className={classes.title}>
                                     Win
                                 </Typography>
-                                <Typography variant="body" component="h2" align="left" color="textSecondary">
+                                <Typography variant="h6" component="h6" align="left" className={classes.info}>
                                     Win prizes and money for correctly predicting outcomes in your favorite ISL races!
                                 </Typography>
                             </CardContent>
@@ -97,6 +114,7 @@ class Home extends React.Component {
                     </Grid>
                 </Grid>
               </Paper>
+                </div>
             </div>
         );
     }

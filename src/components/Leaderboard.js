@@ -12,11 +12,16 @@ import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
+import NavigationBar from './NavigationBar';
 require('dotenv').config();
 
 
 
 const useStyles = theme => ({
+    root: {
+        // backgroundColor: "#014664",
+        color: "gold",
+    },
     table: {
         minWidth: 650,
     },
@@ -26,9 +31,10 @@ const useStyles = theme => ({
     },
     title: {
         fontWeight: "Bolder",
+        color: "white",
         fontSize: "2em",
         alignContent: "center",
-    }
+    }, 
   });
 
 class Leaderboard extends React.Component {
@@ -74,74 +80,80 @@ class Leaderboard extends React.Component {
         const { classes} = this.props;
         if (this.state.gender === "M") {
             return (
-                <div className={classes.tablecontainer}>
-                    <Typography className={classes.title}>Elo Leaderboard</Typography>
-                    <FormGroup align="center">
-                        <FormControlLabel
-                            control={<Switch size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
-                            label={this.state.gender==="M" ? "Male" : "Female"}
-                        />
-                    </FormGroup>
-                    <TableContainer component={Paper}>
-                        <Table className={classes.table} aria-label="simple table">
-                            <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Rank</TableCell>
-                                <TableCell align="left">Name</TableCell>
-                                <TableCell align="left">Team</TableCell>
-                                <TableCell align="left">Elo</TableCell>
-                            </TableRow>
-                            </TableHead>
-                            <TableBody>
-                            {this.state.males.map((swimmer, index) => (
-                                <TableRow key={swimmer._id}>
-                                <TableCell align="left" component="th" scope="row">
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
-                                <TableCell align="left">{swimmer.team}</TableCell>
-                                <TableCell align="left">{swimmer.elo.toFixed(2)}</TableCell>
+                <div className={classes.root}>
+                    <NavigationBar></NavigationBar>
+                    <div className={classes.tablecontainer}>
+                        <Typography className={classes.title}>Elo Leaderboard</Typography>
+                        <FormGroup align="center">
+                            <FormControlLabel
+                                control={<Switch color="inherit" size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
+                                label={this.state.gender==="M" ? "Male" : "Female"}
+                            />
+                        </FormGroup>
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                                <TableHead>
+                                <TableRow>
+                                    <TableCell align="left">Rank</TableCell>
+                                    <TableCell align="left">Name</TableCell>
+                                    <TableCell align="left">Team</TableCell>
+                                    <TableCell align="left">Elo</TableCell>
                                 </TableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                {this.state.males.map((swimmer, index) => (
+                                    <TableRow key={swimmer._id}>
+                                    <TableCell align="left" component="th" scope="row">
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
+                                    <TableCell align="left">{swimmer.team}</TableCell>
+                                    <TableCell align="left">{swimmer.elo.toFixed(2)}</TableCell>
+                                    </TableRow>
+                                ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
             )
         } else if (this.state.gender === "F") {
             return (
-                <div className={classes.tablecontainer}>
-                    <Typography className={classes.title}>Elo Leaderboard</Typography>
-                    <FormGroup align="center">
-                        <FormControlLabel
-                            control={<Switch size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
-                            label={this.state.gender==="M" ? "Male" : "Female"}
-                        />
-                    </FormGroup>
-                    <TableContainer component={Paper}>
-                        <Table className={classes.table} aria-label="simple table">
-                            <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Rank</TableCell>
-                                <TableCell align="left">Name</TableCell>
-                                <TableCell align="left">Team</TableCell>
-                                <TableCell align="left">Elo</TableCell>
-                            </TableRow>
-                            </TableHead>
-                            <TableBody>
-                            {this.state.females.map((swimmer, index) => (
-                                <TableRow key={swimmer._id}>
-                                <TableCell align="left" component="th" scope="row">
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
-                                <TableCell align="left">{swimmer.team}</TableCell>
-                                <TableCell align="left">{swimmer.elo.toFixed(2)}</TableCell>
+                <div className={classes.root}>
+                    <NavigationBar></NavigationBar>
+                    <div className={classes.tablecontainer}>
+                        <Typography className={classes.title}>Elo Leaderboard</Typography>
+                        <FormGroup align="center">
+                            <FormControlLabel
+                                control={<Switch size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
+                                label={this.state.gender==="M" ? "Male" : "Female"}
+                            />
+                        </FormGroup>
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                                <TableHead>
+                                <TableRow>
+                                    <TableCell align="left">Rank</TableCell>
+                                    <TableCell align="left">Name</TableCell>
+                                    <TableCell align="left">Team</TableCell>
+                                    <TableCell align="left">Elo</TableCell>
                                 </TableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                {this.state.females.map((swimmer, index) => (
+                                    <TableRow key={swimmer._id}>
+                                    <TableCell align="left" component="th" scope="row">
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
+                                    <TableCell align="left">{swimmer.team}</TableCell>
+                                    <TableCell align="left">{swimmer.elo.toFixed(2)}</TableCell>
+                                    </TableRow>
+                                ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
                 )
         }

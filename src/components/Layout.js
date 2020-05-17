@@ -1,5 +1,4 @@
 import ReactRouter from './Routes';
-import NavigationBar from './NavigationBar';
 import React from 'react';
 
 
@@ -10,9 +9,10 @@ export default class Layout extends React.Component {
 
     return (
         <div>
-            <NavigationBar></NavigationBar>
             <main>
-                <ReactRouter></ReactRouter>
+                <ReactRouter>
+
+                </ReactRouter>
             </main>
         </div>
     )}
