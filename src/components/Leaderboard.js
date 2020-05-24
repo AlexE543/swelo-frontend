@@ -19,22 +19,27 @@ require('dotenv').config();
 
 const useStyles = theme => ({
     root: {
-        // backgroundColor: "#014664",
-        color: "gold",
+        color: "black",
     },
     table: {
         minWidth: 650,
+        outlineStyle: "solid",
+        outlineColor: "rgb(0, 84, 138)",
     },
     tablecontainer: {
         alignItems: "center",
         margin: "5%",
     },
     title: {
-        fontWeight: "Bolder",
-        color: "white",
-        fontSize: "2em",
+        fontSize: "3.5vw",
         alignContent: "center",
     }, 
+    header: {
+        borderBottom: "4px solid rgba(0, 84, 138, .8)"
+    },
+    row: {
+        border: "2px solid rgba(0, 84, 138, .2)",
+    }
   });
 
 class Leaderboard extends React.Component {
@@ -86,14 +91,14 @@ class Leaderboard extends React.Component {
                         <Typography className={classes.title}>Elo Leaderboard</Typography>
                         <FormGroup align="center">
                             <FormControlLabel
-                                control={<Switch color="inherit" size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
+                                control={<Switch color="primary" size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
                                 label={this.state.gender==="M" ? "Male" : "Female"}
                             />
                         </FormGroup>
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="simple table">
+                        <TableContainer className={classes.table} component={Paper}>
+                            <Table aria-label="simple table">
                                 <TableHead>
-                                <TableRow>
+                                <TableRow className={classes.header}>
                                     <TableCell align="left">Rank</TableCell>
                                     <TableCell align="left">Name</TableCell>
                                     <TableCell align="left">Team</TableCell>
@@ -102,7 +107,7 @@ class Leaderboard extends React.Component {
                                 </TableHead>
                                 <TableBody>
                                 {this.state.males.map((swimmer, index) => (
-                                    <TableRow key={swimmer._id}>
+                                    <TableRow hover="true" style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
                                     <TableCell align="left" component="th" scope="row">
                                         {index + 1}
                                     </TableCell>
@@ -129,10 +134,10 @@ class Leaderboard extends React.Component {
                                 label={this.state.gender==="M" ? "Male" : "Female"}
                             />
                         </FormGroup>
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="simple table">
+                        <TableContainer className={classes.table} component={Paper}>
+                            <Table aria-label="simple table">
                                 <TableHead>
-                                <TableRow>
+                                <TableRow className={classes.header}>
                                     <TableCell align="left">Rank</TableCell>
                                     <TableCell align="left">Name</TableCell>
                                     <TableCell align="left">Team</TableCell>
@@ -141,7 +146,7 @@ class Leaderboard extends React.Component {
                                 </TableHead>
                                 <TableBody>
                                 {this.state.females.map((swimmer, index) => (
-                                    <TableRow key={swimmer._id}>
+                                    <TableRow hover="true" style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
                                     <TableCell align="left" component="th" scope="row">
                                         {index + 1}
                                     </TableCell>

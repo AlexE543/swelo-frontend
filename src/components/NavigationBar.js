@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import Drawer from './AppDrawer'
 import { Link } from "react-router-dom";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ProfileNav from './ProfileNav';
+import { Avatar } from '@material-ui/core';
+import logo from '../images/small_logo.png';
 
 const useStyles = theme => ({
   root: {
@@ -21,9 +24,11 @@ const useStyles = theme => ({
   name: {
     padding: "4px",
   },
-  appBar: {
-    backgroundColor: "#292c38"
-  }
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+    marginRight: "5px",
+  },
 });
 
 class NavigationBar extends React.Component {
@@ -34,6 +39,7 @@ class NavigationBar extends React.Component {
       token: localStorage.getItem("token"),
       name: localStorage.getItem("firstName"),
     }
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleLogout = () => {
@@ -50,7 +56,7 @@ class NavigationBar extends React.Component {
       
       return (
         <div className={classes.root}>
-          <AppBar position="static" className={classes.appBar}>
+          <AppBar position="static" color="primary">
             <Toolbar>
               <Drawer />
               <Typography variant="h6">
@@ -69,13 +75,15 @@ class NavigationBar extends React.Component {
           <AppBar position="static" className={classes.appBar}>
             <Toolbar>
               <Drawer />
+              <Avatar variant="circle" alt="logo" src={logo} className={classes.small} />
               <Typography variant="h6" className={classes.title}>
                 Swelo
               </Typography>
               <div className={classes.spacer}></div>
               <AccountCircleIcon></AccountCircleIcon>
-              <Typography className={classes.name}>{this.state.name}</Typography>
-              <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
+              <ProfileNav name={this.state.name} handleLogout={this.handleLogout}></ProfileNav>
+              {/* <Typography className={classes.name}>{this.state.name}</Typography> */}
+              {/* <Button color="inherit" onClick={this.handleLogout}>Logout</Button> */}
             </Toolbar>
           </AppBar>
         </div>

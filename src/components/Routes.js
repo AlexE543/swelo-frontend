@@ -6,6 +6,7 @@ import Leaderboard from './Leaderboard';
 import Betting from './Betting';
 import Signup from './Signup';
 import Login from './Login';
+import Profile from './Profile';
 
 
 const ReactRouter = () => {
@@ -19,6 +20,7 @@ const ReactRouter = () => {
                     <Route path="/betting" component={Betting} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
+                    <Route path="/profile" component={Profile} />
                 </Switch>
             </Fragment>
     
