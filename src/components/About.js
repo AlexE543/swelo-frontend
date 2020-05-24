@@ -39,8 +39,10 @@ const useStyles = theme => ({
         marginTop: "2%",
         marginBottom: "2%",
         fontSize: "1.5vw",
+        textAlign: "left",
     },
     profiles: {
+        marginTop: "2%",
         marginLeft: "10%",
         marginRight: "10%",
     }
@@ -88,24 +90,18 @@ class About extends React.Component {
                             <img alt="alex" src={alex}></img>
                             <h3><strong>Alex Ellison</strong></h3>
                             <div className={classes.about}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-                                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                Alex is a second-year student at MIT studying Computer Science, Economics, and Data Science. He swims collegiately for MIT
+                                and spends his free time involved with Amphibious Achievement, a mentorship program for underprivelaged high school kids, 
+                                and Code for Good, a non-profit technical contracting club. Before starting Swelo, Alex has worked on various 
+                                projects in the pertaining to betting and data science in the realms of politics and horse racing.
                             </div>
                         </Grid>
                         <Grid item xs={6} className={classes.item}>
                             <img alt="brian" src={brian}></img>
                             <h3><strong>Brian Glat</strong></h3>
                             <div className={classes.about}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-                                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                Brian is a second-year student at MIT studying Business Analytics and Mathematics. He is also a collegiate swimmer for MIT.
+                                Before starting Swelo, Brian has had experience in Data Analytics and Sports Analytics research.
                             </div>
                         </Grid>
                     </Grid>
