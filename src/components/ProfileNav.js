@@ -59,7 +59,6 @@ export default function Profile(props) {
         aria-haspopup="true"
         color="primary"
         variant="contained"
-        textColor="secondary"
         disableElevation
         onClick={handleClick}
       >

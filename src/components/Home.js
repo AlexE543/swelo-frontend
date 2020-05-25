@@ -6,8 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import NavigationBar from "./NavigationBar";
-import Background from "../images/background.jpg"
 import logo from '../images/logo.png';
+
 
 
 const useStyles = theme => ({

@@ -7,6 +7,7 @@ import Betting from './Betting';
 import Signup from './Signup';
 import Login from './Login';
 import Profile from './Profile';
+import Market from './Market';
 
 
 const ReactRouter = () => {
@@ -18,6 +19,7 @@ const ReactRouter = () => {
                     <Route path="/about" component={About} />
                     <Route path="/leaderboard" component={Leaderboard} />
                     <Route path="/betting" component={Betting} />
+                    <Route path="/market" component={Market} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
                     <Route path="/profile" component={Profile} />
