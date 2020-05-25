@@ -42,6 +42,8 @@ const useStyles = theme => ({
     }
   });
 
+const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3333';
+
 class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
@@ -65,14 +67,14 @@ class Leaderboard extends React.Component {
     };
 
     componentDidMount() {
-        axios.get("https://api.swimelo.com/leaderboard/M").then((res) => {
+        axios.get(`${apiUrl}/leaderboard/M`).then((res) => {
             try {
                 this.setState({males: res.data});
             } catch (err) {
                 console.error(err);
             }
         });
-        axios.get("https://api.swimelo.com/leaderboard/F").then((result) => {
+        axios.get(`${apiUrl}/leaderboard/F`).then((result) => {
             try {
                 this.setState({females: result.data});
             } catch (err) {

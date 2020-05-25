@@ -54,13 +54,14 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3333';
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post("https://api.swimelo.com/signup", { "firstName": firstName, "lastName": lastName, "email": email, "password": password }).then((res) => {
+    axios.post(`${apiUrl}/signup`, { "firstName": firstName, "lastName": lastName, "email": email, "password": password }).then((res) => {
       console.log("Token: ", res.data.token);
       console.log("UserId: ", res.data.userId);
-      axios.post("https://api.swimelo.com/login", { "email": email, "password": password }).then((res) => {
+      axios.post(`${apiUrl}/login`, { "email": email, "password": password }).then((res) => {
         console.log("Token: ", res.data.token.token);
         console.log("User: ", res.data.user);
         localStorage.setItem('token', res.data.token.token);
