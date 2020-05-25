@@ -53,7 +53,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3000';
+  const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3333';
 
   const handleSubmit = (event) => {
     event.preventDefault();

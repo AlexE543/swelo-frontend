@@ -42,7 +42,7 @@ const useStyles = theme => ({
     }
   });
 
-const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3000';
+const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3333';
 
 class Leaderboard extends React.Component {
     constructor(props) {
