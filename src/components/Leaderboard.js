@@ -8,14 +8,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
 import NavigationBar from './NavigationBar';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TablePagination from "@material-ui/core/TablePagination";
 require('dotenv').config();
 
 
@@ -42,10 +41,39 @@ const useStyles = theme => ({
     },
     row: {
         border: "2px solid rgba(0, 84, 138, .2)",
+    },
+    tabbar: {
+        marginBottom: "1rem"
     }
   });
 
 const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3333';
+
+function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
+}
+
+function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0]);
+        if (order !== 0) return order;
+        return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+}
 
 class Leaderboard extends React.Component {
     constructor(props) {
@@ -54,21 +82,38 @@ class Leaderboard extends React.Component {
             males: [],
             females: [],
             gender: "M",
-            checked: true,
+            order: 'asc',
+            orderBy: 'rank',
+            page: 0,
+            rowsPerPage: 10
         }
     }
+
+
 
     componentDidMount() {
         axios.get(`${apiUrl}/leaderboard/M`).then((res) => {
             try {
-                this.setState({males: res.data});
+                let i = 1;
+                let data = res.data.map(d => {
+                    d['rank'] = i;
+                    ++i;
+                    return d;
+                });
+                this.setState({males: data, page: 0});
             } catch (err) {
                 console.error(err);
             }
         });
-        axios.get(`${apiUrl}/leaderboard/F`).then((result) => {
+        axios.get(`${apiUrl}/leaderboard/F`).then((res) => {
             try {
-                this.setState({females: result.data});
+                let i = 1;
+                let data = res.data.map(d => {
+                    d['rank'] = i;
+                    ++i;
+                    return d;
+                });
+                this.setState({females: data, page: 0});
             } catch (err) {
                 console.error(err);
             }
@@ -77,12 +122,30 @@ class Leaderboard extends React.Component {
 
     handleTabChange = (event, newValue) =>  {
         if (newValue === "M") {
-            this.setState({gender: "M", checked: true});
+            this.setState({gender: "M", page: 0});
         } else {
-            this.setState({gender: "F", checked: false});
-
+            this.setState({gender: "F", page: 0});
         }
     };
+
+    sortHandler = (event, idk) => {
+        this.setState({
+            order: this.state.order==='asc'?'desc':'asc'
+        });
+    }
+
+    handleChangePage = (event, newValue) => {
+        this.setState({
+            page: newValue
+        });
+    }
+
+    handleChangeRowsPerPage = (event) => {
+        this.setState({
+            page: 0,
+            rowsPerPage: event.target.value
+        });
+    }
 
     render() {
         const { classes} = this.props;
@@ -91,7 +154,7 @@ class Leaderboard extends React.Component {
                 <NavigationBar></NavigationBar>
                 <div className={classes.tablecontainer}>
                     <Typography className={classes.title}>Elo Leaderboard</Typography>
-                    <AppBar position="static">
+                    <AppBar position="static" className={classes.tabbar}>
                         <Tabs value={this.state.gender} onChange={this.handleTabChange} aria-label="simple tabs example">
                             <Tab value={'M'} label="Male" />
                             <Tab value={'F'} label="Female" />
@@ -101,17 +164,22 @@ class Leaderboard extends React.Component {
                         <Table aria-label="simple table">
                             <TableHead>
                             <TableRow className={classes.header}>
-                                <TableCell align="left">Rank</TableCell>
+                                <TableCell align="left" sortDirection={this.state.order}>
+                                    <TableSortLabel active={true} direction={this.state.order} onClick={this.sortHandler}/>
+                                    Rank
+                                </TableCell>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="left">Team</TableCell>
                                 <TableCell align="left">Elo</TableCell>
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                            {this.state[this.state.gender === 'M'?'males':'females'].map((swimmer, index) => (
-                                <TableRow hover="true" style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
+                            {stableSort(this.state[this.state.gender === 'M'?'males':'females'], getComparator(this.state.order, this.state.orderBy))
+                              .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                              .map((swimmer, index) => (
+                                <TableRow hover={true} style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
                                 <TableCell align="left" component="th" scope="row">
-                                    {index + 1}
+                                    {swimmer.rank}
                                 </TableCell>
                                 <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
                                 <TableCell align="left">{swimmer.team}</TableCell>
@@ -121,6 +189,15 @@ class Leaderboard extends React.Component {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 50, 100]}
+                        component="div"
+                        count={this.state[this.state.gender === 'M'?'males':'females'].length}
+                        rowsPerPage={this.state.rowsPerPage}
+                        page={this.state.page}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
                 </div>
             </div>
         )
