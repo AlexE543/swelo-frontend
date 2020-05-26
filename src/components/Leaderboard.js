@@ -13,6 +13,9 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
 import NavigationBar from './NavigationBar';
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 require('dotenv').config();
 
 
@@ -33,7 +36,7 @@ const useStyles = theme => ({
     title: {
         fontSize: "3.5vw",
         alignContent: "center",
-    }, 
+    },
     header: {
         borderBottom: "4px solid rgba(0, 84, 138, .8)"
     },
@@ -55,17 +58,6 @@ class Leaderboard extends React.Component {
         }
     }
 
-    toggleGender = () => {
-        console.log("gender toggled");
-        if (this.state.gender === "M") {
-            this.setState({gender: "F", checked: false});
-            console.log("Male going female");
-        } else {
-            this.setState({gender: "M", checked: true})
-            console.log("Female going Male");
-        }
-    };
-
     componentDidMount() {
         axios.get(`${apiUrl}/leaderboard/M`).then((res) => {
             try {
@@ -83,87 +75,55 @@ class Leaderboard extends React.Component {
         });
     }
 
+    handleTabChange = (event, newValue) =>  {
+        if (newValue === "M") {
+            this.setState({gender: "M", checked: true});
+        } else {
+            this.setState({gender: "F", checked: false});
+
+        }
+    };
+
     render() {
         const { classes} = this.props;
-        if (this.state.gender === "M") {
-            return (
-                <div className={classes.root}>
-                    <NavigationBar></NavigationBar>
-                    <div className={classes.tablecontainer}>
-                        <Typography className={classes.title}>Elo Leaderboard</Typography>
-                        <FormGroup align="center">
-                            <FormControlLabel
-                                control={<Switch color="primary" size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
-                                label={this.state.gender==="M" ? "Male" : "Female"}
-                            />
-                        </FormGroup>
-                        <TableContainer className={classes.table} component={Paper}>
-                            <Table aria-label="simple table">
-                                <TableHead>
-                                <TableRow className={classes.header}>
-                                    <TableCell align="left">Rank</TableCell>
-                                    <TableCell align="left">Name</TableCell>
-                                    <TableCell align="left">Team</TableCell>
-                                    <TableCell align="left">Elo</TableCell>
+        return (
+            <div className={classes.root}>
+                <NavigationBar></NavigationBar>
+                <div className={classes.tablecontainer}>
+                    <Typography className={classes.title}>Elo Leaderboard</Typography>
+                    <AppBar position="static">
+                        <Tabs value={this.state.gender} onChange={this.handleTabChange} aria-label="simple tabs example">
+                            <Tab value={'M'} label="Male" />
+                            <Tab value={'F'} label="Female" />
+                        </Tabs>
+                    </AppBar>
+                    <TableContainer className={classes.table} component={Paper}>
+                        <Table aria-label="simple table">
+                            <TableHead>
+                            <TableRow className={classes.header}>
+                                <TableCell align="left">Rank</TableCell>
+                                <TableCell align="left">Name</TableCell>
+                                <TableCell align="left">Team</TableCell>
+                                <TableCell align="left">Elo</TableCell>
+                            </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {this.state[this.state.gender === 'M'?'males':'females'].map((swimmer, index) => (
+                                <TableRow hover="true" style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
+                                <TableCell align="left" component="th" scope="row">
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
+                                <TableCell align="left">{swimmer.team}</TableCell>
+                                <TableCell align="left">{swimmer.elo.toFixed(2)}</TableCell>
                                 </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                {this.state.males.map((swimmer, index) => (
-                                    <TableRow hover="true" style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
-                                    <TableCell align="left" component="th" scope="row">
-                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
-                                    <TableCell align="left">{swimmer.team}</TableCell>
-                                    <TableCell align="left">{swimmer.elo.toFixed(2)}</TableCell>
-                                    </TableRow>
-                                ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
-            )
-        } else if (this.state.gender === "F") {
-            return (
-                <div className={classes.root}>
-                    <NavigationBar></NavigationBar>
-                    <div className={classes.tablecontainer}>
-                        <Typography className={classes.title}>Elo Leaderboard</Typography>
-                        <FormGroup align="center">
-                            <FormControlLabel
-                                control={<Switch size="medium" checked={this.state.checked} onChange={this.toggleGender} />}
-                                label={this.state.gender==="M" ? "Male" : "Female"}
-                            />
-                        </FormGroup>
-                        <TableContainer className={classes.table} component={Paper}>
-                            <Table aria-label="simple table">
-                                <TableHead>
-                                <TableRow className={classes.header}>
-                                    <TableCell align="left">Rank</TableCell>
-                                    <TableCell align="left">Name</TableCell>
-                                    <TableCell align="left">Team</TableCell>
-                                    <TableCell align="left">Elo</TableCell>
-                                </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                {this.state.females.map((swimmer, index) => (
-                                    <TableRow hover="true" style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
-                                    <TableCell align="left" component="th" scope="row">
-                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell align="left">{swimmer.firstName} {swimmer.lastName}</TableCell>
-                                    <TableCell align="left">{swimmer.team}</TableCell>
-                                    <TableCell align="left">{swimmer.elo.toFixed(2)}</TableCell>
-                                    </TableRow>
-                                ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div>
-                </div>
-                )
-        }
+            </div>
+        )
     }
 }
 export default withStyles(useStyles)(Leaderboard);
