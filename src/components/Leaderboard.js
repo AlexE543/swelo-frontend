@@ -15,6 +15,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TablePagination from "@material-ui/core/TablePagination";
+import TextField from "@material-ui/core/TextField";
 require('dotenv').config();
 
 
@@ -43,7 +44,20 @@ const useStyles = theme => ({
         border: "2px solid rgba(0, 84, 138, .2)",
     },
     tabbar: {
-        marginBottom: "1rem"
+        width: "320px",
+        height: "50px"
+    },
+    headerdiv: {
+        marginBottom: "1rem",
+        display: "flex",
+        'flex-direction': "row"
+    },
+    spacer: {
+        flex: 'auto'
+    },
+    searchInput: {
+        flex: 'none',
+        backgroundColor: theme.palette.common.white
     }
   });
 
@@ -85,7 +99,8 @@ class Leaderboard extends React.Component {
             order: 'asc',
             orderBy: 'rank',
             page: 0,
-            rowsPerPage: 10
+            rowsPerPage: 10,
+            searchText: ''
         }
     }
 
@@ -150,6 +165,14 @@ class Leaderboard extends React.Component {
         });
     }
 
+
+    searchChange = (e) => {
+        this.setState({
+            page: 0,
+            searchText: e.target.value
+        });
+    }
+
     render() {
         const { classes} = this.props;
         return (
@@ -157,12 +180,17 @@ class Leaderboard extends React.Component {
                 <NavigationBar></NavigationBar>
                 <div className={classes.tablecontainer}>
                     <Typography className={classes.title}>Elo Leaderboard</Typography>
-                    <AppBar position="static" className={classes.tabbar}>
-                        <Tabs value={this.state.gender} onChange={this.handleTabChange} aria-label="gender tabs">
-                            <Tab value={'M'} label="Male" />
-                            <Tab value={'F'} label="Female" />
-                        </Tabs>
-                    </AppBar>
+                    <div className={classes.headerdiv}>
+                        <AppBar position="static" className={classes.tabbar}>
+                            <Tabs value={this.state.gender} onChange={this.handleTabChange} aria-label="gender tabs">
+                                <Tab value={'M'} label="Male" />
+                                <Tab value={'F'} label="Female" />
+                            </Tabs>
+                        </AppBar>
+                        <div className={classes.spacer}></div>
+                        <TextField id="searchField" label="Filter" variant="outlined" onChange={this.searchChange} className={classes.searchInput}/>
+                    </div>
+
                     <TableContainer className={classes.table} component={Paper}>
                         <Table aria-label="simple table">
                             <TableHead>
@@ -203,6 +231,10 @@ class Leaderboard extends React.Component {
                             </TableHead>
                             <TableBody>
                             {stableSort(this.state[this.state.gender === 'M'?'males':'females'], getComparator(this.state.order, this.state.orderBy))
+                              .filter(swimmer => {
+                                  let allTxt = `${swimmer.firstName}${swimmer.lastName}${swimmer.team}`.toLowerCase();
+                                  return !this.state.searchText || allTxt.includes(this.state.searchText.toLowerCase());
+                              })
                               .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
                               .map((swimmer, index) => (
                                 <TableRow hover={true} style ={ index % 2? { background : "rgba(0, 84, 138, .2)" }:{ background : "white" }} className={classes.row} key={swimmer._id}>
@@ -220,7 +252,10 @@ class Leaderboard extends React.Component {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 50, 100]}
                         component="div"
-                        count={this.state[this.state.gender === 'M'?'males':'females'].length}
+                        count={this.state[this.state.gender === 'M'?'males':'females'].filter(swimmer => {
+                            let allTxt = `${swimmer.firstName}${swimmer.lastName}${swimmer.team}`.toLowerCase();
+                            return !this.state.searchText || allTxt.includes(this.state.searchText.toLowerCase());
+                        }).length}
                         rowsPerPage={this.state.rowsPerPage}
                         page={this.state.page}
                         onChangePage={this.handleChangePage}
