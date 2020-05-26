@@ -128,10 +128,13 @@ class Leaderboard extends React.Component {
         }
     };
 
-    sortHandler = (event, idk) => {
-        this.setState({
-            order: this.state.order==='asc'?'desc':'asc'
-        });
+    sortHandler = (key) => {
+        return () => {
+            this.setState({
+                orderBy: key,
+                order: this.state.order==='asc'?'desc':'asc'
+            });
+        }
     }
 
     handleChangePage = (event, newValue) => {
@@ -155,7 +158,7 @@ class Leaderboard extends React.Component {
                 <div className={classes.tablecontainer}>
                     <Typography className={classes.title}>Elo Leaderboard</Typography>
                     <AppBar position="static" className={classes.tabbar}>
-                        <Tabs value={this.state.gender} onChange={this.handleTabChange} aria-label="simple tabs example">
+                        <Tabs value={this.state.gender} onChange={this.handleTabChange} aria-label="gender tabs">
                             <Tab value={'M'} label="Male" />
                             <Tab value={'F'} label="Female" />
                         </Tabs>
@@ -164,13 +167,38 @@ class Leaderboard extends React.Component {
                         <Table aria-label="simple table">
                             <TableHead>
                             <TableRow className={classes.header}>
-                                <TableCell align="left" sortDirection={this.state.order}>
-                                    <TableSortLabel active={true} direction={this.state.order} onClick={this.sortHandler}/>
-                                    Rank
+                                <TableCell align="left" sortDirection={this.state.orderBy==='rank'?this.state.order:false}>
+                                    <TableSortLabel
+                                      active={this.state.orderBy==='rank'}
+                                      direction={this.state.orderBy==='rank'?this.state.order:'asc'}
+                                      onClick={this.sortHandler('rank')}>
+                                        Rank
+                                    </TableSortLabel>
                                 </TableCell>
-                                <TableCell align="left">Name</TableCell>
-                                <TableCell align="left">Team</TableCell>
-                                <TableCell align="left">Elo</TableCell>
+                                <TableCell align="left" sortDirection={this.state.orderBy==='firstName'?this.state.order:false}>
+                                    <TableSortLabel
+                                        active={this.state.orderBy==='firstName'}
+                                        direction={this.state.orderBy==='firstName'?this.state.order:'asc'}
+                                        onClick={this.sortHandler('firstName')}>
+                                        Name
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell align="left" sortDirection={this.state.orderBy==='team'?this.state.order:false}>
+                                    <TableSortLabel
+                                        active={this.state.orderBy==='team'}
+                                        direction={this.state.orderBy==='team'?this.state.order:'asc'}
+                                        onClick={this.sortHandler('team')}>
+                                        Team
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell align="left" sortDirection={this.state.orderBy==='elo'?this.state.order:false}>
+                                    <TableSortLabel
+                                      active={this.state.orderBy==='elo'}
+                                      direction={this.state.orderBy==='elo'?this.state.order:'asc'}
+                                      onClick={this.sortHandler('elo')}>
+                                        Elo
+                                    </TableSortLabel>
+                                </TableCell>
                             </TableRow>
                             </TableHead>
                             <TableBody>
