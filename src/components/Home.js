@@ -66,7 +66,7 @@ class Home extends React.Component {
                 <img className={classes.logo} alt="logo" src={logo}/>
               <Paper className={classes.header} elevation={0}>
                 <h1 className={classes.statement}>
-                    Hello, we're <span className={classes.highlight}>Swelo!</span> We
+                    Hello, we're <span className={classes.highlight}>Swimelo!</span> We
                     are committed to providing a new and <span className={classes.highlight}>exciting twist</span> to the sport of swimming.
                     By implementing state of the art <span className={classes.highlight}>sports analytics</span> tools coupled with 
                     <span className={classes.highlight}>competitive betting</span> markets, we hope to 

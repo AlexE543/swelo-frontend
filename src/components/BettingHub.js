@@ -17,30 +17,27 @@ class BettingHub extends React.Component {
         super(props);
         this.state = {
             meet: "",
-            events: [],
+            events: ["Men's 100m Butterfly", "Women's 100m Butterfly", "Men's 200m Freestyle", "Women's 200m Freestyle", "Men's 100m Breaststroke",
+                    "Women's 100m Breaststroke"],
         }
     }
 
     render() {
         const classes = this.props;
+        const events = this.state.events.map((event) => {
+            return (
+                <Grid item xs={12} md={6} lg={4} key={event}>
+                    <MarketItem eventName={event}></MarketItem>
+                </Grid>
+            );
+        })
         return (
             <div className={classes.root}>
                 <div className={classes.title}>
                     <h1>Welcome to the Betting Hub</h1>
                 </div>
                 <Grid container spacing={3}>
-                    <Grid item xs={4}>
-                        <MarketItem eventName="Mens 100M Butterfly"></MarketItem>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <MarketItem eventName="Womens 100M Butterfly"></MarketItem>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <MarketItem eventName="Mens 200M Freestyle"></MarketItem>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <MarketItem eventName="Womens 200M Freestyle"></MarketItem>
-                    </Grid>
+                    {events}
                 </Grid>
             </div>
         );

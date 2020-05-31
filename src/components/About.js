@@ -56,7 +56,7 @@ class About extends React.Component {
             <div className={classes.root}>
                 <NavigationBar></NavigationBar>
                 <div className={classes.title}>
-                    We Are <span className={classes.highlight}>Swelo</span>
+                    We Are <span className={classes.highlight}>Swimelo</span>
                 </div>
                 <img alt="logo" src={logo} style={{ maxWidth: "5%" }}></img>
                 <div className={classes.subtitle}>
@@ -92,7 +92,7 @@ class About extends React.Component {
                             <div className={classes.about}>
                                 Alex is a second-year student at MIT studying Computer Science, Economics, and Data Science. He swims collegiately for MIT
                                 and spends his free time involved with Amphibious Achievement, a mentorship program for underprivelaged high school kids, 
-                                and Code for Good, a non-profit technical contracting club. Before starting Swelo, Alex has worked on various 
+                                and Code for Good, a non-profit technical contracting club. Before starting Swimelo, Alex has worked on various 
                                 projects in the pertaining to betting and data science in the realms of politics and horse racing.
                             </div>
                         </Grid>
@@ -101,7 +101,7 @@ class About extends React.Component {
                             <h3><strong>Brian Glat</strong></h3>
                             <div className={classes.about}>
                                 Brian is a second-year student at MIT studying Business Analytics and Mathematics. He is also a collegiate swimmer for MIT.
-                                Before starting Swelo, Brian has had experience in Data Analytics and Sports Analytics research.
+                                Before starting Swimelo, Brian has had experience in Data Analytics and Sports Analytics research.
                             </div>
                         </Grid>
                     </Grid>

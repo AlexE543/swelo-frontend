@@ -11,6 +11,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import NavigationBar from './NavigationBar';
+import axios from 'axios';
+require('dotenv').config();
 
 const useStyles = theme => ({
     root: {
@@ -60,16 +62,62 @@ const useStyles = theme => ({
     }
 });
 
+const apiUrl = process.env.NODE_ENV === 'production'?'https://api.swimelo.com':'http://localhost:3333';
+
 class Market extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            odds: [],
+            ranks: {},
+            lanes: {},
+        }
+    }
+    
+    componentDidMount() {
+        axios.get(`${apiUrl}/market/${this.props.location.state.eventName}`).then((res) => {
+            try {
+                this.setState({odds: res.data.odds, ranks: res.data.ranks, lanes: res.data.lanes})
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    }
+
     render () {
-        const {classes} = this.props
+        const {classes} = this.props;
+        let marketData = this.state.odds.map((odd, index) => {
+            return (
+                <ExpansionPanel className={classes.panel} key={index}>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                        >
+                        <Typography className={classes.heading}>{this.state.ranks[index+1]}</Typography>
+                        <Typography className={classes.heading}>{(1/odd).toFixed(2)}</Typography>
+                        <Typography className={classes.heading}>{this.state.lanes[this.state.ranks[index+1]]}</Typography>
+                        </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <FormControl variant="outlined">
+                            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                            <OutlinedInput 
+                                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                labelWidth={60}
+                            />
+                        </FormControl>
+                        <Button className={classes.buy}>Place Bet</Button>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            );
+        })
         return (
             <div className={classes.root}>
                 <NavigationBar></NavigationBar>
                 <div className={classes.head}>
-                    <h1>Example Betting Market</h1>
+                    <h1>{this.props.location.state.eventName}</h1>
                 </div>
-                <Typography className={classes.title}>{this.props.location.state.eventName}</Typography>
                 <div className={classes.body}>
                     <ExpansionPanel className={classes.first} expanded={false} style={{backgroundColor: "rgba(255, 255, 255, 1)"}}>
                         <ExpansionPanelSummary
@@ -82,174 +130,7 @@ class Market extends React.Component {
                             <Typography className={classes.heading}>Athlete Lane</Typography>
                             </ExpansionPanelSummary>
                     </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>Kregor Zirk</Typography>
-                            <Typography className={classes.heading}>100</Typography>
-                            <Typography className={classes.heading}>1</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel} style={{background : "rgba(0, 84, 138, .2)"}}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>Chad Le Clos</Typography>
-                            <Typography className={classes.heading}>6.6</Typography>
-                            <Typography className={classes.heading}>2</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>Jan Switkowski</Typography>
-                            <Typography className={classes.heading}>52.6</Typography>
-                            <Typography className={classes.heading}>3</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel} style={{background : "rgba(0, 84, 138, .2)"}}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>Caeleb Dressel</Typography>
-                            <Typography className={classes.heading}>1.9</Typography>
-                            <Typography className={classes.heading}>4</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>Tom Shieldsr</Typography>
-                            <Typography className={classes.heading}>46.2</Typography>
-                            <Typography className={classes.heading}>5</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel} style={{background : "rgba(0, 84, 138, .2)"}}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>Jack Conger</Typography>
-                            <Typography className={classes.heading}>21.9</Typography>
-                            <Typography className={classes.heading}>6</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>Vini Lanza</Typography>
-                            <Typography className={classes.heading}>100</Typography>
-                            <Typography className={classes.heading}>7</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel className={classes.panel} style={{background : "rgba(0, 84, 138, .2)"}}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                            >
-                            <Typography className={classes.heading}>James Guy</Typography>
-                            <Typography className={classes.heading}>3.7</Typography>
-                            <Typography className={classes.heading}>8</Typography>
-                            </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                                <OutlinedInput 
-                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                    labelWidth={60}
-                                />
-                            </FormControl>
-                            <Button className={classes.buy}>Place Bet</Button>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
+                    {marketData}
                 </div>
                 
             </div>

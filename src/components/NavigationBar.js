@@ -60,7 +60,7 @@ class NavigationBar extends React.Component {
             <Toolbar>
               <Drawer />
               <Typography variant="h6">
-                Swelo
+                Swimelo
               </Typography>
               <div className={classes.spacer}></div>
               <Button component={Link} to="/signup" color="inherit">Signup</Button>
@@ -77,7 +77,7 @@ class NavigationBar extends React.Component {
               <Drawer />
               <Avatar variant="circle" alt="logo" src={logo} className={classes.small} />
               <Typography variant="h6" className={classes.title}>
-                Swelo
+                Swimelo
               </Typography>
               <div className={classes.spacer}></div>
               <AccountCircleIcon></AccountCircleIcon>
